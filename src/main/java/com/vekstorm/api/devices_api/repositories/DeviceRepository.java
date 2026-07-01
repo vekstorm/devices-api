@@ -9,6 +9,10 @@ import java.util.UUID;
 public interface DeviceRepository extends MongoRepository<Device, UUID> {
 
     List<Device> findByUserId(String userId);
+
     List<Device> findByScenarioIdsContaining(String scenarioId);
+
     List<Device> findBySubscriptionId(String subscriptionId);
+
+    boolean existsByNameAndSubscriptionId(String name, String subscriptionId);
 }

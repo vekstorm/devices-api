@@ -1,21 +1,27 @@
 package com.vekstorm.api.devices_api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.jackson.Jacksonized;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 
 @Document(collection = "devices")
+@CompoundIndex(name = "device_name_subscription", def = "{'name': 1, 'subscriptionId': 1}", unique = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Device {
 
     @Id
@@ -28,7 +34,7 @@ public class Device {
     private String staSsid;
     private String staPass;
     private String deviceType;
-    private String MAC;
+    private String mac;
 
     @Builder.Default
     private boolean staEnabled = false;
@@ -58,7 +64,7 @@ public class Device {
     private String batteryLevel;
 
     @Builder.Default
-    private boolean isGateway = false;
+    private boolean gateway = false;
 
     private String gatewayType;
     private String parentGatewayId;

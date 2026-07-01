@@ -3,7 +3,9 @@ package com.vekstorm.api.devices_api.services;
 import com.vekstorm.api.devices_api.models.Device;
 import com.vekstorm.api.devices_api.repositories.DeviceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
@@ -43,6 +45,10 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public Device save(Device device) {
+        if (deviceRepository.existsByNameAndSubscriptionId(device.getName(), device.getSubscriptionId())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Device with name '" + device.getName() + "' already exists for this user");
+        }
         device.setId(UUID.randomUUID());
         device.setCreatedAt(Instant.now());
         return deviceRepository.save(device);
@@ -58,7 +64,7 @@ public class DeviceServiceImpl implements DeviceService {
                     existing.setStaSsid(device.getStaSsid());
                     existing.setStaPass(device.getStaPass());
                     existing.setDeviceType(device.getDeviceType());
-                    existing.setMAC(device.getMAC());
+                    existing.setMac(device.getMac());
                     existing.setStaEnabled(device.isStaEnabled());
                     existing.setMqttEnabled(device.isMqttEnabled());
                     existing.setWifiConnected(device.isWifiConnected());
@@ -88,5 +94,10 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public void deleteById(UUID id) {
         deviceRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsByNameAndSubscriptionId(String name, String subscriptionId) {
+        return deviceRepository.existsByNameAndSubscriptionId(name, subscriptionId);
     }
 }

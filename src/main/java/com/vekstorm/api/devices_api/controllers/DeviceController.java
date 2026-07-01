@@ -52,6 +52,15 @@ public class DeviceController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/check-name")
+    @PreAuthorize("hasAuthority('device:read')")
+    public ResponseEntity<Boolean> checkNameExists(
+            @RequestParam String name,
+            @RequestParam String subscriptionId) {
+        boolean exists = deviceService.existsByNameAndSubscriptionId(name, subscriptionId);
+        return ResponseEntity.ok(exists);
+    }
+
     @PostMapping
     @PreAuthorize("hasAuthority('device:write')")
     public ResponseEntity<Device> create(@RequestBody Device device) {

@@ -29,6 +29,8 @@ public class Scenario {
 
     private String description;
 
+    private Object options;
+
     @Builder.Default
     private Instant createdAt = Instant.now();
 }

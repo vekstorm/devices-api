@@ -51,6 +51,7 @@ public class ScenarioServiceImpl implements ScenarioService {
                     existing.setSubscriptionId(scenario.getSubscriptionId());
                     existing.setUserId(scenario.getUserId());
                     existing.setDescription(scenario.getDescription());
+                    existing.setOptions(scenario.getOptions());
                     return scenarioRepository.save(existing);
                 })
                 .orElseThrow(() -> new RuntimeException("Scenario not found with id: " + id));

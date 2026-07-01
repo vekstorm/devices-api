@@ -30,12 +30,16 @@ public class DeviceController {
     @PreAuthorize("hasAuthority('device:read')")
     public ResponseEntity<List<Device>> getAll(
             @RequestParam(required = false) String userId,
-            @RequestParam(required = false) String scenarioId) {
+            @RequestParam(required = false) String scenarioId,
+            @RequestParam(required = false) String subscriptionId) {
         if (userId != null) {
             return ResponseEntity.ok(deviceService.findByUserId(userId));
         }
         if (scenarioId != null) {
             return ResponseEntity.ok(deviceService.findByScenarioId(scenarioId));
+        }
+        if (subscriptionId != null) {
+            return ResponseEntity.ok(deviceService.findBySubscriptionId(subscriptionId));
         }
         return ResponseEntity.ok(deviceService.findAll());
     }

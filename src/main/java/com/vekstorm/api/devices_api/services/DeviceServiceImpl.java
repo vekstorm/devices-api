@@ -33,7 +33,12 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public List<Device> findByScenarioId(String scenarioId) {
-        return deviceRepository.findByScenarioId(scenarioId);
+        return deviceRepository.findByScenarioIdsContaining(scenarioId);
+    }
+
+    @Override
+    public List<Device> findBySubscriptionId(String subscriptionId) {
+        return deviceRepository.findBySubscriptionId(subscriptionId);
     }
 
     @Override
@@ -63,11 +68,16 @@ public class DeviceServiceImpl implements DeviceService {
                     existing.setMqttUser(device.getMqttUser());
                     existing.setMqttPassword(device.getMqttPassword());
                     existing.setWired(device.isWired());
+                    existing.setSleepMode(device.getSleepMode());
+                    existing.setWakeUpSources(device.getWakeUpSources());
                     existing.setBatteryLevel(device.getBatteryLevel());
                     existing.setGateway(device.isGateway());
                     existing.setGatewayType(device.getGatewayType());
-                    existing.setScenarioId(device.getScenarioId());
+                    existing.setParentGatewayId(device.getParentGatewayId());
+                    existing.setSubscriptionId(device.getSubscriptionId());
+                    existing.setScenarioIds(device.getScenarioIds());
                     existing.setUserId(device.getUserId());
+                    existing.setStatus(device.getStatus());
                     existing.setPorts(device.getPorts());
                     existing.setActions(device.getActions());
                     return deviceRepository.save(existing);

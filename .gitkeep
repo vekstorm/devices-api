@@ -1,0 +1,6 @@
+# Servicio: devices-api
+# Repo:    https://github.com/vekstorm/devices-api.git
+# Rama:    main
+#
+# Tras clonar el repo raíz, clonar aquí:
+#   git clone https://github.com/vekstorm/devices-api.git devices-api
